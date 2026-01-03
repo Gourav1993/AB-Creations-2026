@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AB Creations | Premium Signage & Branding</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- 1. THEME VARIABLES --- */
+        :root {
+            --primary: #E11D48; /* Vibrant Red-Pink */
+            --primary-dark: #be123c;
+            --secondary: #0F172A; /* Deep Navy */
+            --accent: #F59E0B; /* Gold */
+            --light: #F8FAFC;
+            --dark: #020617;
+            
+            /* Light Mode Defaults */
+            --bg-body: #ffffff;
+            --bg-card: #ffffff;
+            --bg-nav: rgba(255, 255, 255, 0.85);
+            --text-main: #1e293b;
+            --text-sub: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 10px 30px -10px rgba(0,0,0,0.1);
+        }
+
+        [data-theme="dark"] {
+            /* Dark Mode Overrides */
+            --bg-body: #020617;
+            --bg-card: #1e293b;
+            --bg-nav: rgba(15, 23, 42, 0.85);
+            --text-main: #f8fafc;
+            --text-sub: #94a3b8;
+            --border: #334155;
+            --shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+        }
+
+        /* --- 2. GLOBAL STYLES --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; transition: background-color 0.3s, color 0.3s, border-color 0.3s; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-body); color: var(--text-main); line-height: 1.6; overflow-x: hidden; }
+        h1, h2, h3, h4, h5 { font-family: 'Outfit', sans-serif; font-weight: 700; line-height: 1.2; }
+        a { text-decoration: none; color: inherit; }
+        img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        ul { list-style: none; }
+
+        /* --- 3. NAVBAR --- */
+        .navbar { position: fixed; top: 0; width: 100%; z-index: 1000; background: var(--bg-nav); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); }
+        .nav-container { max-width: 1400px; margin: 0 auto; padding: 0.8rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+        
+        .logo img { height: 50px; width: auto; } /* Adjust logo size here */
+        
+        .nav-menu { display: flex; gap: 2.5rem; }
+        .nav-link { font-weight: 500; font-size: 0.95rem; position: relative; }
+        .nav-link:hover { color: var(--primary); }
+        .nav-link::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: var(--primary); transition: 0.3s; }
+        .nav-link:hover::after { width: 100%; }
+
+        .nav-actions { display: flex; gap: 1rem; align-items: center; }
+        .theme-btn { background: transparent; border: 1px solid var(--border); color: var(--text-main); width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+        .theme-btn:hover { border-color: var(--primary); color: var(--primary); }
+        .hamburger { display: none; font-size: 1.5rem; cursor: pointer; }
+
+        /* --- 4. HERO SECTION --- */
+        .hero { height: 90vh; display: flex; align-items: center; justify-content: center; text-align: center; position: relative; background: radial-gradient(circle at center, var(--bg-card), var(--bg-body)); padding: 0 1rem; }
+        .hero-overlay { position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=1920') center/cover; opacity: 0.1; z-index: 0; }
+        .hero-content { position: relative; z-index: 2; max-width: 900px; }
+        
+        .hero h1 { font-size: 4.5rem; margin-bottom: 1.5rem; background: linear-gradient(135deg, var(--text-main), var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero p { font-size: 1.2rem; color: var(--text-sub); margin-bottom: 2.5rem; max-width: 600px; margin-left: auto; margin-right: auto; }
+        
+        .btn { padding: 14px 35px; border-radius: 50px; font-weight: 600; cursor: pointer; display: inline-block; transition: transform 0.3s, box-shadow 0.3s; }
+        .btn-primary { background: var(--primary); color: white; border: none; box-shadow: 0 10px 20px rgba(225, 29, 72, 0.3); }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(225, 29, 72, 0.4); }
+        .btn-outline { background: transparent; border: 2px solid var(--border); color: var(--text-main); margin-left: 1rem; }
+        .btn-outline:hover { border-color: var(--text-main); background: var(--bg-card); }
+
+        /* --- 5. CATALOGUE & FILTERS --- */
+        .section { padding: 6rem 0; }
+        .bg-alt { background-color: var(--bg-card); } /* Alternative background for sections */
+        .container { max-width: 1400px; margin: 0 auto; padding: 0 2rem; }
+        
+        .section-header { text-align: center; margin-bottom: 4rem; }
+        .sub-heading { color: var(--primary); text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem; font-weight: 700; margin-bottom: 0.5rem; display: block; }
+        .heading { font-size: 2.5rem; }
+
+        .catalog-controls { display: flex; flex-direction: column; align-items: center; gap: 2rem; margin-bottom: 3rem; }
+        .search-box { position: relative; width: 100%; max-width: 500px; }
+        .search-box input { width: 100%; padding: 15px 50px 15px 25px; border-radius: 50px; border: 1px solid var(--border); background: var(--bg-body); color: var(--text-main); font-size: 1rem; outline: none; }
+        .search-box i { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: var(--text-sub); }
+
+        .filters { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+        .filter-btn { padding: 10px 25px; border-radius: 50px; background: var(--bg-body); border: 1px solid var(--border); color: var(--text-sub); cursor: pointer; font-weight: 500; font-size: 0.95rem; }
+        .filter-btn:hover, .filter-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+        /* --- 6. PRODUCT GRID --- */
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2.5rem; }
+        
+        .product-card { 
+            background: var(--bg-body); 
+            border-radius: 20px; 
+            overflow: hidden; 
+            border: 1px solid var(--border); 
+            transition: 0.4s ease;
+            display: flex; /* Flex to allow hiding via JS */
+            flex-direction: column;
+        }
+        
+        .product-card:hover { transform: translateY(-10px); box-shadow: var(--shadow); border-color: var(--primary); }
+
+        .card-img { height: 260px; background: #e2e8f0; position: relative; overflow: hidden; }
+        .card-img img { transition: transform 0.6s ease; }
+        .product-card:hover .card-img img { transform: scale(1.1); }
+        
+        .card-badge { position: absolute; top: 15px; left: 15px; background: rgba(0,0,0,0.7); color: white; padding: 5px 12px; border-radius: 30px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; backdrop-filter: blur(4px); }
+
+        .card-info { padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1; }
+        .card-cat { font-size: 0.8rem; color: var(--primary); text-transform: uppercase; font-weight: 700; margin-bottom: 0.5rem; }
+        .card-title { font-size: 1.25rem; margin-bottom: 0.5rem; color: var(--text-main); }
+        .card-desc { font-size: 0.9rem; color: var(--text-sub); margin-bottom: 1.5rem; line-height: 1.5; flex-grow: 1; }
+        
+        .card-footer { padding-top: 1rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
+        .price { font-weight: 700; font-size: 1.1rem; color: var(--text-main); }
+        .btn-link { color: var(--primary); font-weight: 600; font-size: 0.9rem; display: flex; align-items: center; gap: 5px; }
+
+        .load-more-wrapper { text-align: center; margin-top: 4rem; }
+        .showing-text { margin-top: 1rem; color: var(--text-sub); font-size: 0.9rem; }
+
+        /* --- 7. CONTACT SECTION --- */
+        .contact-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+        .contact-box { background: var(--bg-card); padding: 3rem; border-radius: 20px; border: 1px solid var(--border); box-shadow: var(--shadow); }
+        .info-item { display: flex; gap: 1.5rem; margin-bottom: 2rem; }
+        .info-icon { width: 50px; height: 50px; background: var(--primary); color: white; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+        .map-wrapper { height: 500px; border-radius: 20px; overflow: hidden; box-shadow: var(--shadow); }
+
+        /* --- 8. FOOTER --- */
+        footer { background: var(--secondary); color: white; padding: 4rem 0 2rem; }
+        .footer-content { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 2rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 3rem; margin-bottom: 2rem; }
+        .socials a { width: 45px; height: 45px; background: rgba(255,255,255,0.1); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-left: 10px; transition: 0.3s; color: white; }
+        .socials a:hover { background: var(--primary); }
+        .copyright { text-align: center; color: #94a3b8; font-size: 0.9rem; }
+
+        /* Mobile Responsive */
+        @media (max-width: 900px) {
+            .hero h1 { font-size: 3rem; }
+            .contact-layout { grid-template-columns: 1fr; }
+            .nav-menu { display: none; } /* Hide menu on mobile for this demo */
+            .hamburger { display: block; color: var(--text-main); }
+        }
+
+        /* Animations */
+        .animate-up { opacity: 0; transform: translateY(30px); animation: fadeUp 0.8s forwards; }
+        .delay-1 { animation-delay: 0.2s; } .delay-2 { animation-delay: 0.4s; }
+        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <img src="image/image001.png" alt="AB Creations" onerror="this.style.display='none'; this.parentNode.innerHTML='<h2 style=\'color:var(--primary)\'>AB CREATIONS</h2>'">
+            </a>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#catalog" class="nav-link">Products</a></li>
+                <li><a href="#about" class="nav-link">About Us</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="nav-actions">
+                <button id="theme-toggle" class="theme-btn"><i class="fas fa-moon"></i></button>
+                <div class="hamburger"><i class="fas fa-bars"></i></div>
+            </div>
+        </div>
+    </nav>
+
+    <section id="home" class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <span class="sub-heading animate-up">Since 2020</span>
+            <h1 class="animate-up delay-1">Ink Your Imagination with <br>Premium Signage</h1>
+            <p class="animate-up delay-2">Mumbai's leading manufacturer of LED Signage, 3D Letters, and Corporate Branding solutions. Waterproof, Durable, and Elegant.</p>
+            <div class="animate-up delay-2">
+                <a href="#catalog" class="btn btn-primary">View Catalogue</a>
+                <a href="#contact" class="btn btn-outline">Get Quote</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="catalog" class="section bg-alt">
+        <div class="container">
+            <div class="section-header">
+                <span class="sub-heading">Our Portfolio</span>
+                <h2 class="heading">Explore 198+ Products</h2>
+            </div>
+
+            <div class="catalog-controls">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search (e.g. 'Brass', 'Puma', 'Name Plate')...">
+                </div>
+                <div class="filters">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="led">LED Signage</button>
+                    <button class="filter-btn" data-filter="metal">Metal & SS</button>
+                    <button class="filter-btn" data-filter="nameplate">Name Plates</button>
+                    <button class="filter-btn" data-filter="office">Office/Internal</button>
+                </div>
+            </div>
+
+            <div id="product-grid" class="product-grid">
+
+                <div class="product-card" data-category="led">
+                    <div class="card-img"><span class="card-badge">LED</span><img src="image005.jpg" alt="LED Signage"></div>
+                    <div class="card-info"><div class="card-cat">Signage Board</div><h3 class="card-title">LED Signage Board</h3><p class="card-desc">Acrylic box letters, effective & timely delivery.</p><div class="card-footer"><span class="price">Rs 1,850 / Sq ft</span><a href="#contact" class="btn-link">Quote <i class="fas fa-arrow-right"></i></a></div></div>
+                </div>
+
+                <div class="product-card" data-category="led">
+                    <div class="card-img"><span class="card-badge">3D LED</span><img src="image003.jpg" alt="Punjab Da Chulah"></div>
+                    <div class="card-info"><div class="card-cat">Signage</div><h3 class="card-title">Signane Letter</h3><p class="card-desc">Warm White, Acrylic Body, Outdoor Waterproof.</p><div class="card-footer"><span class="price">Rs 1,850 / Sq ft</span><a href="#contact" class="btn-link">Quote <i class="fas fa-arrow-right"></i></a></div></div>
+                </div>
+
+                <div class="product-card" data-category="led">
+                    <div class="card-img"><span class="card-badge">Industrial</span><img src="image009.jpg" alt="Camlin"></div>
+                    <div class="card-info"><div class="card-cat">LED Signage</div><h3 class="card-title">CFS Camlin Sign</h3><p class="card-desc">Orange LED, 3.5 Inches Thick, Outdoor.</p><div class="card-footer"><span class="price">Rs 850 / Sq ft</span><a href="#contact" class="btn-link">Quote <i class="fas fa-arrow-right"></i></a></div></div>
+                </div>
+
+                <div class="product-card" data-category="led">
+                    <div class="card-img"><span class="card-badge">High Res</span><img src="image012.jpg" alt="Sattva"></div>
+                    <div class="card-info"><div class="card-cat">Branding</div><h3 class="card-title">SATTVA Corporate</h3><p class="card-desc">1920x1080p Res, Rectangular, Outdoor.</p><div class="card-footer"><span class="price">Rs 120 / Inch</span><a href="#contact" class="btn-link">Quote <i class="fas fa-arrow-right"></i></a></div></div>
+                </div>
+
+                <div class="product-card" data-category="metal">
+                    <div class="card-img"><span class="card-badge">SS</span><img src="image015.jpg" alt="WSA Logo"></div>
+                    <div class="card-info"><div class="card-cat">Metal Logo</div><h3 class="card-title">WSA 3D Logo</h3><p class="card-desc">Stainless Steel & Acrylic, 5.25mm Glass.</p><div class="card-footer"><span class="price">Rs 600 / Sq ft</span><a href="#contact" class="btn-link">Quote <i class="fas fa-arrow-right"></i></a></div></div>
+                </div>
+
+                <div class="product-card" data-category="led">
+                    <div class="card-img"><span class="card-badge">Box Letter</span><img src="image017.jpg" alt="JK Bank"></div>
+                    <div class="card-info"><div class="card-cat">LED Letters</div><h3 class="card-title">J&K Bank 3D Box</h3><p class="card-desc">Outdoor, Wall Mounted, Upto 18.5 cm.</p><div class="card-footer"><span class="price">Rs 140 / Unit</span><a href="#contact" class="btn-link">Quote <i class="fas fa-arrow-right"></i></a></div></div>
+                </div>
+
+                <div class="product-card" data-category="led">
+                    <div class="card-img"><span class="card-badge">Glow</span><img src="image022.jpg" alt="Nav Chaitanya"></div>
+                    <div class="card-info"><div class="card-cat">LED Board</div><h3 class="card-title">Nav Chaitanya Glow</h3><p class="card-desc">Acrylic + Golden SS, 4 Inches Thick.</p><div class="card-footer"><span class="price">Rs 250 / Sq ft</span><a href="#contact" class="btn-link">Quote <i class="fas fa-arrow-right"></i></a></div></div>
+                </div>
+
+                <div class="product-card" data-category="led">
+                    <div class="card-img"><span class="card-badge">Salon</span><img src="image026.jpg" alt="Klips Salon"></div>
+                    <div class="card-info"><div class="card-cat">LED Signage</div><h3 class="card-title">Klips & Kurls</h3><p class="card-desc">White/Yellow, Outdoor, High Visibility.</p><div class="card-footer"><span class="price">Rs 180 / Inch</span><a href="#contact" class="btn-link">Quote <i class="fas fa-arrow-right"></i></a></div></div>
+                </div>
+
+                <div class="product-card" data-category="led">
+                    <div class="card-img"><span class="card-badge">Pixel</span><img src="image027.jpg" alt="Made in Mumbai"></div>
+                    <div class="card-info"><div class="card-cat">Pixel LED</div><h3 class="card-title">Made in Mumbai</h3><p class="card-desc">Multicolour Pixel LED, ACP Body.</p><div class="card-footer"><span class="price">Rs 1,850 / Sq ft</span><a href="#contact" class="btn-link">Quote <i class="fas fa-arrow-right"></i></a></div></div>
+                </div>
+
+                <div class="product-card" data-category="led">
+                    <div class="card-img"><span class="card-badge">Blue LED</span><img src="image028.jpg" alt="Glen Ridge"></div>
+                    <div class="card-info"><div class="card-cat">LED Letters</div><h3 class="card-title">Glen Ridge Sign</h3><p class="card-desc">Blue Glow, Aluminum Body, IP68.</p><div class="card-footer"><span class="price">Rs 120 / Inch</span><a href="#contact" class="btn-link">Quote <i class="fas fa-arrow-right"></i></a></div></div>
+                </div>
+
+                <div class="product-card" data-category="led">
+                    <div class="card-img"><span class="card-badge">Retro</span><img src="image029.jpg" alt="Cinema Sign"></div>
+                    <div class="card-info"><div class="card-cat">Bulb Sign</div><h3 class="card-title">Cinema Retro Sign</h3><p class="card-desc">Bulb style LED, Hanging/Cantilever.</p><div class="card-footer"><span class="price">Rs 650 / Sq ft</span><a href="#contact" class="btn-link">Quote <i class="fas fa-arrow-right"></i></a></div></div>
+                </div>
+
+                <div class="product-card" data-category="led">
+                    <div class="card-img"><span class="card-badge">Corporate</span><img src="image030.jpg" alt="SBI Infra"></div>
+                    <div class="card-info"><div class="card-cat">LED Signage</div><h3 class="card-title">SBI Infra Mgmt</h3><p class="card-desc">500 cd/m2 Brightness, Outdoor Acrylic.</p><div class="card-footer"><span class="price">Rs 1,200 / Sq ft</span><a href="#contact" class="btn-link">Quote <i class="fas fa-arrow-right"></i></a></div></div>
+                </div>
+
+                <div class="product-card" data-category="led">
+                    <div class="card-img"><span class="card-badge">Graphic</span><img src="image031.jpg" alt="Pipe Dream"></div>
+                    <div class="card-info"><div class="card-cat">LED Logo</div><h3 class="card-title">Pipe Dream Logo</h3><p class="card-desc">Graphics Display, Customized Shape.</p><div class="card-footer"><span class="price">Rs 120 / Inch</span><a href="#contact" class="btn-link">Quote <i class="fas fa-arrow-right"></i></a></div></div>
+                </div>
+
+                <div class="product-card" data-category="led">
+                    <div class="card-img"><span class="card-badge">Restaurant</span><img src="image032.jpg" alt="Oshin Sagar"></div>
+                    <div class="card-info"><div class="card-cat">LED Board</div><h3 class="card-title">Oshin Sagar</h3><p class="card-desc">Red/Orange Glow, 12 Year Life Span.</p><div class="card-footer"><span class="price">Rs 240 / Inch</span><a href="#contact" class="btn-link">Quote <i class="fas fa-arrow-right"></i></a></div></div>
+                </div>
+
+                <div class="product-card" data-category="metal">
+                    <div class="card-img"><span class="card-badge">Rose Gold</span><img src="image033.jpg" alt="Starry Night"></div>
+                    <div class="card-info"><div class="card-cat">Metal LED</div><h3 class="card-title">Starry Night Gold</h3><p class="card-desc">Rose Gold SS, Backlit LED, Premium.</p><div class="card-footer"><span class="price">Rs 220 / Inch</span><a href="#contact" class="btn-link">Quote <i class="fas fa-arrow-right"></i></a></div></div>
+                </div>
+
+                <div class="product-card" data-category="office">
+                    <div class="card-img"><span class="card-badge">Indoor</span><img src="image034.jpg" alt="Qualys"></div>
+                    <div class="card-info"><div class="card-cat">Office Logo</div><h3 class="card-title">Qualys 3D Logo</h3><p class="card-desc">Indoor/Reception, 4 inches thick, White LED.</p><div class="card-footer"><span class="price">Rs 2,000 / Piece</span><a href="#contact" class="btn-link">Quote <i class="fas fa-arrow-right"></i></a></div></div>
+                </div>
+
+                <div class="product-card" data-category="led">
+                    <div class="card-img"><span class="card-badge">Glow</span><img src="image035.jpg" alt="Cocoberry"></div>
+                    <div class="card-info"><div class="card-cat">Glow Sign</div><h3 class="card-title">Cocoberry Glow</h3><p class="card-desc">ACP Board, Acrylic Box Letters.</p><div class="card-footer"><span class="price">Rs 2,400 / Sq ft</span><a href="#contact" class="btn-link">Quote <i class="fas fa-arrow-right"></i></a></div></div>
+                </div>
+
+                <div class="product-card" data-category="office">
+                    <div class="card-img"><span class="card-badge">Directional</span><img src="image036.jpg" alt="Espaco"></div>
+                    <div class="card-info"><div class="card-cat">Office</div><h3 class="card-title">Espaco Directional</h3><p class="card-desc">Hanging Direction Sign, Aluminum.</p><div class="card-footer"><span class="price">Rs 1,200 / Sq ft</span><a href="#contact" class="btn-link">Quote <i class="fas fa-arrow-right"></i></a></div></div>
+                </div>
+
+                <div class="product-card" data-category="office">
+                    <div class="card-img"><span class="card-badge">Hanging</span><img src="image037.jpg" alt="Biondini"></div>
+                    <div class="card-info"><div class="card-cat">Retail</div><h3 class="card-title">Biondini Hanging</h3><p class="card-desc">Double Sided, Square, Indoor.</p><div class="card-footer"><span class="price">Rs 120 / Unit</span><a href="#contact" class="btn-link">Quote <i class="fas fa-arrow-right"></i></a></div></div>
+                </div>
+
+                <div class="product-card" data-category="metal">
+                    <div class="card-img"><span class="card-badge">Brass</span><img src="image038.jpg" alt="Diamond Factory"></div>
+                    <div class="card-info"><div class="card-cat">Metal Letters</div><h3 class="card-title">The Diamond Factory</h3><p class="card-desc">Brass Letters, Gold Finish, Outdoor.</p><div class="card-footer"><span class="price">Rs 140 / Inch</span><a href="#contact" class="btn-link">Quote <i class="fas fa-arrow-right"></i></a></div></div>
+                </div>
+
+                <div class="product-card" data-category="led">
+                    <div class="card-img"><span class="card-badge">Storefront</span><img src="image039.jpg" alt="Samsonite"></div>
+                    <div class="card-info"><div class="card-cat">LED Board</div><h3 class="card-title">Samsonite Store</h3><p class="card-desc">Blue & White, Waterproof, 3D.</p><div class="card-footer"><span class="price">Rs 1,200 / Sq ft</span><a href="#contact" class="btn-link">Quote <i class="fas fa-arrow-right"></i></a></div></div>
+                </div>
+
+                <div class="product-card" data-category="led">
+                    <div class="card-img"><span class="card-badge">Large</span><img src="image041.jpg" alt="BitsLaw"></div>
+                    <div class="card-info"><div class="card-cat">LED Letters</div><h3 class="card-title">BitsLaw Letters</h3><p class="card-desc">Free Standing, Landscape Signage.</p><div class="card-footer"><span class="price">Rs 130 / Inch</span><a href="#contact" class="btn-link">Quote <i class="fas fa-arrow-right"></i></a></div></div>
+                </div>
+
+                <div class="product-card" data-category="led">
+                    <div class="card-img"><span class="card-badge">Multi-color</span><img src="image045.jpg" alt="Speed Bird"></div>
+                    <div class="card-info"><div class="card-cat">LED Logo</div><h3 class="card-title">Speed Bird Logo</h3><p class="card-desc">Multicolour, Surface Mount.</p><div class="card-footer"><span class="price">Rs 140 / Inch</span><a href="#contact" class="btn-link">Quote <i class="fas fa-arrow-right"></i></a></div></div>
+                </div>
+
+                <div class="product-card" data-category="led">
+                    <div class="card-img"><span class="card-badge">Pixel</span><img src="image046.jpg" alt="Bar Bank"></div>
+                    <div class="card-info"><div class="card-cat">Funky</div><h3 class="card-title">Bar Bank Pixel</h3><p class="card-desc">Square Pixels, Retro Look.</p><div class="card-footer"><span class="price">Rs 160 / Inch</span><a href="#contact" class="btn-link">Quote <i class="fas fa-arrow-right"></i></a></div></div>
+                </div>
+
+                <div class="product-card" data-category="led">
+                    <div class="card-img"><span class="card-badge">Logo</span><img src="image047.jpg" alt="Puma"></div>
+                    <div class="card-info"><div class="card-cat">Backlit</div><h3 class="card-title">Puma Backlit</h3><p class="card-desc">Warm White, Indoor Branding.</p><div class="card-footer"><span class="price">Rs 160 / Piece</span><a href="#contact" class="btn-link">Quote <i class="fas fa-arrow-right"></i></a></div></div>
+                </div>
+
+                <div class="product-card" data-category="metal">
+                    <div class="card-img"><span class="card-badge">Metal</span><img src="image051.jpg" alt="Kalki"></div>
+                    <div class="card-info"><div class="card-cat">SS Letters</div><h3 class="card-title">Kalki Fashion</h3><p class="card-desc">Matt Finish Metal, LED Backing.</p><div class="card-footer"><span class="price">Rs 180 / Sq ft</span><a href="#contact" class="btn-link">Quote <i class="fas fa-arrow-right"></i></a></div></div>
+                </div>
+
+                <div class="product-card" data-category="metal">
+                    <div class="card-img"><span class="card-badge">304 Grade</span><img src="image052.jpg" alt="Paradigm"></div>
+                    <div class="card-info"><div class="card-cat">Metal Letters</div><h3 class="card-title">Paradigm Realty</h3><p class="card-desc">304 Grade Stainless Steel.</p><div class="card-footer"><span class="price">Rs 180 / Inch</span><a href="#contact" class="btn-link">Quote <i class="fas fa-arrow-right"></i></a></div></div>
+                </div>
+
+                <div class="product-card" data-category="led">
+                    <div class="card-img"><span class="card-badge">Cursive</span><img src="image066.jpg" alt="Avighna"></div>
+                    <div class="card-info"><div class="card-cat">LED Letters</div><h3 class="card-title">Avighna Gold</h3><p class="card-desc">Gold Plated, Waterproof, Cursive.</p><div class="card-footer"><span class="price">Rs 200 / Inch</span><a href="#contact" class="btn-link">Quote <i class="fas fa-arrow-right"></i></a></div></div>
+                </div>
+
+                <div class="product-card" data-category="led">
+                    <div class="card-img"><span class="card-badge">Regional</span><img src="image069.jpg" alt="Globus"></div>
+                    <div class="card-info"><div class="card-cat">LED Letters</div><h3 class="card-title">Globus Hindi</h3><p class="card-desc">Custom Regional Font, White LED.</p><div class="card-footer"><span class="price">Rs 160 / Inch</span><a href="#contact" class="btn-link">Quote <i class="fas fa-arrow-right"></i></a></div></div>
+                </div>
+
+                <div class="product-card" data-category="metal">
+                    <div class="card-img"><span class="card-badge">Channel</span><img src="image073.jpg" alt="4G"></div>
+                    <div class="card-info"><div class="card-cat">Channelium</div><h3 class="card-title">4G Letter</h3><p class="card-desc">Aluminum Channel, Powder Coated.</p><div class="card-footer"><span class="price">Rs 130 / Inch</span><a href="#contact" class="btn-link">Quote <i class="fas fa-arrow-right"></i></a></div></div>
+                </div>
+
+                <div class="product-card" data-category="metal">
+                    <div class="card-img"><span class="card-badge">Gold</span><img src="image075.jpg" alt="Fojie"></div>
+                    <div class="card-info"><div class="card-cat">Metal Backlit</div><h3 class="card-title">Fojie Gold</h3><p class="card-desc">Metal Cut, Warm White Backlight.</p><div class="card-footer"><span class="price">Rs 1,800 / Sq ft</span><a href="#contact" class="btn-link">Quote <i class="fas fa-arrow-right"></i></a></div></div>
+                </div>
+
+                <div class="product-card" data-category="led">
+                    <div class="card-img"><span class="card-badge">Dual Color</span><img src="image077.jpg" alt="Mastercard"></div>
+                    <div class="card-info"><div class="card-cat">LED Logo</div><h3 class="card-title">Mastercard Logo</h3><p class="card-desc">Dual Color Acrylic, Outdoor.</p><div class="card-footer"><span class="price">Rs 150 / Inch</span><a href="#contact" class="btn-link">Quote <i class="fas fa-arrow-right"></i></a></div></div>
+                </div>
+
+                <div class="product-card" data-category="led">
+                    <div class="card-img"><span class="card-badge">Blue</span><img src="image078.jpg" alt="Reebok"></div>
+                    <div class="card-info"><div class="card-cat">LED Sign</div><h3 class="card-title">Reebok Blue</h3><p class="card-desc">Blue Acrylic, White LED.</p><div class="card-footer"><span class="price">Rs 140 / Inch</span><a href="#contact" class="btn-link">Quote <i class="fas fa-arrow-right"></i></a></div></div>
+                </div>
+
+                <div class="product-card" data-category="metal">
+                    <div class="card-img"><span class="card-badge">Silver</span><img src="image080.jpg" alt="Continental"></div>
+                    <div class="card-info"><div class="card-cat">SS Letters</div><h3 class="card-title">CU Continental</h3><p class="card-desc">Stainless Steel, Silver Finish.</p><div class="card-footer"><span class="price">Rs 160 / Inch</span><a href="#contact" class="btn-link">Quote <i class="fas fa-arrow-right"></i></a></div></div>
+                </div>
+
+                <div class="product-card" data-category="led">
+                    <div class="card-img"><span class="card-badge">White</span><img src="image086.jpg" alt="Baggit"></div>
+                    <div class="card-info"><div class="card-cat">LED Logo</div><h3 class="card-title">Baggit Logo</h3><p class="card-desc">Pure White LED, Black BG.</p><div class="card-footer"><span class="price">Rs 120 / Inch</span><a href="#contact" class="btn-link">Quote <i class="fas fa-arrow-right"></i></a></div></div>
+                </div>
+
+                <div class="product-card" data-category="led">
+                    <div class="card-img"><span class="card-badge">Custom</span><img src="image088.jpg" alt="SBI Life"></div>
+                    <div class="card-info"><div class="card-cat">LED Logo</div><h3 class="card-title">SBI Life Heart</h3><p class="card-desc">Custom Heart Shape, Indoor.</p><div class="card-footer"><span class="price">Rs 140 / Inch</span><a href="#contact" class="btn-link">Quote <i class="fas fa-arrow-right"></i></a></div></div>
+                </div>
+
+                <div class="product-card" data-category="led">
+                    <div class="card-img"><span class="card-badge">Samsung</span><img src="image090.jpg" alt="Samsung"></div>
+                    <div class="card-info"><div class="card-cat">LED Letters</div><h3 class="card-title">Samsung Blue</h3><p class="card-desc">Standard Samsung Blue, 45mm.</p><div class="card-footer"><span class="price">Rs 180 / Inch</span><a href="#contact" class="btn-link">Quote <i class="fas fa-arrow-right"></i></a></div></div>
+                </div>
+
+                <div class="product-card" data-category="led">
+                    <div class="card-img"><span class="card-badge">Cube</span><img src="image092.jpg" alt="Cube"></div>
+                    <div class="card-info"><div class="card-cat">Light Box</div><h3 class="card-title">P-Cube Light</h3><p class="card-desc">5-sided glowing cube.</p><div class="card-footer"><span class="price">Rs 2,500 / Unit</span><a href="#contact" class="btn-link">Quote <i class="fas fa-arrow-right"></i></a></div></div>
+                </div>
+
+                <div class="product-card" data-category="led">
+                    <div class="card-img"><span class="card-badge">Rooftop</span><img src="image095.jpg" alt="Rooftop"></div>
+                    <div class="card-info"><div class="card-cat">Giant LED</div><h3 class="card-title">Rooftop Letter</h3><p class="card-desc">Giant terrace letters.</p><div class="card-footer"><span class="price">Rs 600 / Sq ft</span><a href="#contact" class="btn-link">Quote <i class="fas fa-arrow-right"></i></a></div></div>
+                </div>
+
+                <div class="product-card" data-category="led">
+                    <div class="card-img"><span class="card-badge">Lollipop</span><img src="image097.jpg" alt="TBSE"></div>
+                    <div class="card-info"><div class="card-cat">Round Sign</div><h3 class="card-title">Bar Stock Exch</h3><p class="card-desc">Round Lollipop Sign, Outdoor.</p><div class="card-footer"><span class="price">Rs 120 / Inch</span><a href="#contact" class="btn-link">Quote <i class="fas fa-arrow-right"></i></a></div></div>
+                </div>
+
+                <div class="product-card" data-category="led">
+                    <div class="card-img"><span class="card-badge">Backlit</span><img src="image114.jpg" alt="Jaquar"></div>
+                    <div class="card-info"><div class="card-cat">Steel LED</div><h3 class="card-title">Jaquar Backlit</h3><p class="card-desc">Blue Halo, SS Body.</p><div class="card-footer"><span class="price">Rs 140 / Inch</span><a href="#contact" class="btn-link">Quote <i class="fas fa-arrow-right"></i></a></div></div>
+                </div>
+
+                <div class="product-card" data-category="nameplate">
+                    <div class="card-img"><span class="card-badge">Directory</span><img src="image283.jpg" alt="Directory"></div>
+                    <div class="card-info"><div class="card-cat">Name Plate</div><h3 class="card-title">Building Directory</h3><p class="card-desc">Aluminum Modular Slats.</p><div class="card-footer"><span class="price">Rs 1,200 / Piece</span><a href="#contact" class="btn-link">Quote <i class="fas fa-arrow-right"></i></a></div></div>
+                </div>
+
+                <div class="product-card" data-category="nameplate">
+                    <div class="card-img"><span class="card-badge">Office</span><img src="image289.jpg" alt="Meeting"></div>
+                    <div class="card-info"><div class="card-cat">Name Plate</div><h3 class="card-title">Meeting Room</h3><p class="card-desc">Slider (Vacant/Occupied).</p><div class="card-footer"><span class="price">Rs 300 / Piece</span><a href="#contact" class="btn-link">Quote <i class="fas fa-arrow-right"></i></a></div></div>
+                </div>
+
+                <div class="product-card" data-category="nameplate">
+                    <div class="card-img"><span class="card-badge">Home</span><img src="image290.jpg" alt="Door"></div>
+                    <div class="card-info"><div class="card-cat">Name Plate</div><h3 class="card-title">Door Name Plate</h3><p class="card-desc">Acrylic Designer, Laser Cut.</p><div class="card-footer"><span class="price">Rs 600 / Piece</span><a href="#contact" class="btn-link">Quote <i class="fas fa-arrow-right"></i></a></div></div>
+                </div>
+
+                <div class="product-card" data-category="metal">
+                    <div class="card-img"><span class="card-badge">Etching</span><img src="image291.jpg" alt="Etched"></div>
+                    <div class="card-info"><div class="card-cat">Steel Plate</div><h3 class="card-title">Etched SS Plate</h3><p class="card-desc">Chemical Etching, Enamel Fill.</p><div class="card-footer"><span class="price">Rs 25 / Sq Inch</span><a href="#contact" class="btn-link">Quote <i class="fas fa-arrow-right"></i></a></div></div>
+                </div>
+
+                <div class="product-card" data-category="metal">
+                    <div class="card-img"><span class="card-badge">Labels</span><img src="image294.jpg" alt="Label"></div>
+                    <div class="card-info"><div class="card-cat">Industrial</div><h3 class="card-title">Metal Labels</h3><p class="card-desc">Engraved SS Machinery Tags.</p><div class="card-footer"><span class="price">Rs 20 / Sq Inch</span><a href="#contact" class="btn-link">Quote <i class="fas fa-arrow-right"></i></a></div></div>
+                </div>
+            </div>
+            <div class="load-more-wrapper">
+                <button id="loadMoreBtn" class="btn btn-outline">Load More Products</button>
+                <p id="showing-text" class="showing-text">Showing 12 products</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section">
+        <div class="container">
+            <div class="contact-layout">
+                <div class="contact-box">
+                    <h3 style="font-size:2rem; margin-bottom:2rem;">Get in Touch</h3>
+                    <div class="info-item">
+                        <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <div>
+                            <h4>Location</h4>
+                            <p style="color:var(--text-sub);">Near Amity University Airforce Station, Bhind Road, Gwalior, 474005</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-icon"><i class="fas fa-phone-alt"></i></div>
+                        <div>
+                            <h4>Phone</h4>
+                            <p style="color:var(--text-sub);">+91 93025 78810, +91 96083 45554</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-icon"><i class="fas fa-envelope"></i></div>
+                        <div>
+                            <h4>Email</h4>
+                            <p style="color:var(--text-sub);">contact@abcreations.com</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="map-wrapper">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3577.5685427744183!2d78.24849337541771!3d26.275662977032514!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMjbCsDE2JzMyLjQiTiA3OMKwMTUnMDMuOSJF!5e0!3m2!1sen!2sin!4v1767088874568!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <h3>AB CREATIONS</h3>
+                    <p style="color:#94a3b8;">Ink Your Imagination.</p>
+                </div>
+                <div class="socials">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/abcreations_gwl?igsh=dmFxMGdrYm9vZ3V4/" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://wa.me/+91-9302578810"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="copyright">
+                © 2024 AB Creations. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- VARIABLES ---
+            const loadMoreBtn = document.getElementById('loadMoreBtn');
+            const searchInput = document.getElementById('searchInput');
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const showingText = document.getElementById('showing-text');
+            const allProducts = document.querySelectorAll('.product-card'); 
+            
+            let currentLimit = 12; 
+            let currentFilter = 'all';
+            let currentSearch = '';
+
+            // --- DARK MODE LOGIC ---
+            const themeToggle = document.getElementById('theme-toggle');
+            const icon = themeToggle.querySelector('i');
+            const body = document.body;
+            
+            if(localStorage.getItem('theme') === 'dark') {
+                body.setAttribute('data-theme', 'dark');
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            }
+
+            themeToggle.addEventListener('click', () => {
+                if(body.getAttribute('data-theme') === 'dark') {
+                    body.removeAttribute('data-theme');
+                    localStorage.setItem('theme', 'light');
+                    icon.classList.remove('fa-sun');
+                    icon.classList.add('fa-moon');
+                } else {
+                    body.setAttribute('data-theme', 'dark');
+                    localStorage.setItem('theme', 'dark');
+                    icon.classList.remove('fa-moon');
+                    icon.classList.add('fa-sun');
+                }
+            });
+
+            // --- GRID SETUP FUNCTION ---
+            function setupGrid() {
+                let visibleCount = 0;
+                let totalFiltered = 0;
+
+                allProducts.forEach(card => {
+                    const category = card.getAttribute('data-category');
+                    const title = card.querySelector('.card-title').innerText.toLowerCase();
+                    const desc = card.querySelector('.card-desc').innerText.toLowerCase();
+                    
+                    const matchesCategory = currentFilter === 'all' || category === currentFilter;
+                    const matchesSearch = title.includes(currentSearch.toLowerCase()) || desc.includes(currentSearch.toLowerCase());
+
+                    if (matchesCategory && matchesSearch) {
+                        totalFiltered++;
+                        if (totalFiltered <= currentLimit) {
+                            card.style.display = 'flex';
+                            visibleCount++;
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                showingText.innerText = `Showing ${visibleCount} of ${totalFiltered} Products`;
+
+                if (visibleCount >= totalFiltered || totalFiltered === 0) {
+                    loadMoreBtn.style.display = 'none';
+                } else {
+                    loadMoreBtn.style.display = 'inline-block';
+                }
+            }
+
+            // --- EVENT LISTENERS ---
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentFilter = btn.getAttribute('data-filter');
+                    currentLimit = 12; 
+                    setupGrid();
+                });
+            });
+
+            searchInput.addEventListener('input', (e) => {
+                currentSearch = e.target.value;
+                currentLimit = 12; 
+                setupGrid();
+            });
+
+            loadMoreBtn.addEventListener('click', () => {
+                currentLimit += 12;
+                setupGrid();
+            });
+
+            // Mobile Menu
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            hamburger.addEventListener('click', () => {
+                if (navMenu.style.display === 'flex') {
+                    navMenu.style.display = 'none';
+                } else {
+                    navMenu.style.display = 'flex';
+                    navMenu.style.flexDirection = 'column';
+                    navMenu.style.position = 'absolute';
+                    navMenu.style.top = '60px';
+                    navMenu.style.left = '0';
+                    navMenu.style.width = '100%';
+                    navMenu.style.background = 'var(--bg-nav)';
+                    navMenu.style.padding = '1rem';
+                    navMenu.style.boxShadow = '0 10px 30px rgba(0,0,0,0.1)';
+                }
+            });
+
+            // Initial Load
+            setupGrid();
+        });
+    </script>
+</body>
+</html>
